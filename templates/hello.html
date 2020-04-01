@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)https://v4.bootcss.com/docs/examples/dashboard/# -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+    <title>首页</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+            <div class="col-md-12">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="navbar-toggler-icon"></span>
+                    </button> <a class="navbar-brand" href="#">冷链系统</a>
+
+                </nav>
+            </div>
+        </div>
+      <div class="row justify-content-center" style="">
+          <div class=" col-md-8" style="margin-top: 20px;">
+              <div class="carousel slide" id="carousel-485394">
+                  <ol class="carousel-indicators">
+                      <li data-slide-to="0" data-target="#carousel-485394" class="active">
+                      </li>
+                      <li data-slide-to="1" data-target="#carousel-485394">
+                      </li>
+                      <li data-slide-to="2" data-target="#carousel-485394">
+                      </li>
+                  </ol>
+                  <div class="carousel-inner">
+                      <div class="carousel-item active" style="height: 500px;">
+                          <img class="d-block w-100" alt="Carousel Bootstrap First" src="{{url_for('static', filename='img/head-1.jpg')}}" />
+                          <div class="carousel-caption">
+                              <h4>
+                                  极致新鲜
+                              </h4>
+                              <p>
+                                  完整冷链保护，海货宛若鲜活
+                              </p>
+                          </div>
+                      </div>
+                      <div class="carousel-item" style="height: 500px;">
+                          <img class="d-block w-100" alt="Carousel Bootstrap Second" src="{{url_for('static', filename='img/head-2.jpg')}}" />
+                          <div class="carousel-caption">
+                              <h4>
+                                  极速冷链物流
+                              </h4>
+                              <p>
+                                  一下单，即配货，专属地域车队，保证极速送达。
+                              </p>
+                          </div>
+                      </div>
+                      <div class="carousel-item" style="height: 500px;">
+                          <img class="d-block w-100" alt="Carousel Bootstrap Third" src="{{url_for('static', filename='img/head-2.jpg')}}" />
+                          <div class="carousel-caption">
+                              <h4>
+                                  Third Thumbnail label
+                              </h4>
+                              <p>
+                                  Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+                              </p>
+                          </div>
+                      </div>
+                  </div> <a class="carousel-control-prev" href="#carousel-485394" data-slide="prev"><span class="carousel-control-prev-icon"></span> <span class="sr-only">Previous</span></a> <a class="carousel-control-next" href="#carousel-485394" data-slide="next"><span class="carousel-control-next-icon"></span> <span class="sr-only">Next</span></a>
+              </div>
+              <div class="row" style="margin-top:50px;">
+                  <div class="col-md-6">
+
+                      <button type="button" class="btn btn-lg btn-block btn-info" onclick="location='/user/login'">
+                          用户入口
+                      </button>
+                  </div>
+                  <div class="col-md-6">
+
+                      <button type="button" class="btn btn-block btn-lg btn-danger" onclick="location='/admin/login'">
+                          商家入口
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+</body></html>

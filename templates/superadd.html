@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-3">
+					<h3>
+						增加车辆
+					</h3>
+					<form role="form" action="/superadd/car" method="POST">
+						<div class="form-group">
+
+							<label for="car-place">
+								位置
+							</label>
+							<input type="text" class="form-control" id="car-place" name="place"/>
+						</div>
+						<div class="form-group">
+
+							<label for="car-active0">
+								状态
+							</label>
+							<div class="radio">
+								<label>
+									<input type="radio" name="active" id="car-active0" value="0" >未出车
+								</label>
+							</div>
+							<div class="radio">
+								<label>
+									<input type="radio" name="active" id="car-active1" value="1" checked>出车
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="car-man">
+								司机
+							</label>
+						  	<select class="form-control" id="car-man" name="man">
+								{% for i in data['man'] %}
+								<option value="{{ i['mid'] }}">{{i['name']}}</option>
+								{% endfor %}
+
+						  	</select>
+						</div>
+
+						<div class="form-group">
+
+							<label for="car-num">
+								车牌
+							</label>
+							<input type="text" class="form-control" id="car-num" name="cnum"/>
+						</div>
+						<button type="submit" class="btn btn-primary">
+							Submit
+						</button>
+					</form>
+				</div>
+				<div class="col-md-3">
+					<h3>
+						增加人员
+					</h3>
+					<form role="form" action="/superadd/man" method="POST">
+						<div class="form-group">
+
+							<label for="man-name">
+								姓名
+							</label>
+							<input type="text" class="form-control" id="man-name" name="name"/>
+						</div>
+						<div class="form-group">
+
+							<label for="man-tel">
+								电话
+							</label>
+							<input type="text" class="form-control" id="man-tel" name="tel"/>
+						</div>
+						<button type="submit" class="btn btn-primary">
+							提交
+						</button>
+					</form>
+				</div>
+				<div class="col-md-3">
+					<h3>
+						增加管理员
+					</h3>
+					<form role="form" action="/superadd/admin" method="POST">
+						<div class="form-group">
+
+							<label for="admin-username">
+								username
+							</label>
+							<input type="text" class="form-control" id="admin-username" name="username"/>
+						</div>
+						<div class="form-group">
+
+							<label for="admin-pwd">
+								Password
+							</label>
+							<input type="password" class="form-control" id="admin-pwd" name="pwd"/>
+						</div>
+
+						<button type="submit" class="btn btn-primary">
+							Submit
+						</button>
+					</form>
+				</div>
+				<div class="col-md-3">
+					<h3>
+						增加订单
+					</h3>
+					<form role="form" action="/superadd/order" method="POST">
+						<div class="form-group">
+							<label for="product-user">
+								用户
+							</label>
+						  	<select class="form-control" id="product-user" name="uid">
+								{% for i in data['user'] %}
+								<option value="{{ i['uid'] }}">{{i['user_name']}}</option>
+								{% endfor %}
+
+						  	</select>
+						</div>
+						<div class="form-group">
+							<label for="car-man">
+								商家
+							</label>
+						  	<select class="form-control" id="product-admin" name="aid">
+								{% for i in data['admin'] %}
+								<option value="{{ i['aid'] }}">{{i['a_name']}}</option>
+								{% endfor %}
+
+						  	</select>
+						</div>
+						<div class="form-group">
+
+							<label for="product-num">
+								数量
+							</label>
+							<input type="number" class="form-control" id="product-num" name="num"/>
+						</div>
+						<div class="form-group">
+							<label for="car-man">
+								产品
+							</label>
+						  	<select class="form-control" id="order-product" name="pid">
+								{% for i in data['product'] %}
+								<option value="{{ i['pid'] }}">{{i['pname']}} - {{i['price']/100}}元</option>
+								{% endfor %}
+
+						  	</select>
+						</div>
+						<div class="form-group">
+
+							<label for="order-aim">
+								地址
+							</label>
+							<input type="text" class="form-control" id="order-aim" name="aim"/>
+						</div>
+
+						<button type="submit" class="btn btn-primary">
+							Submit
+						</button>
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<h3>
+						增加运送信息
+					</h3>
+					<form role="form" action="/superadd/deliver" method="POST">
+						<div class="form-group">
+							<label for="deliver-order">
+								订单
+							</label>
+							<select class="form-control" id="deliver-order" name="oid">
+								{% for i in data['order'] %}
+								<option value="{{ i['oid'] }}">{{i['oid']}}</option>
+								{% endfor %}
+						  	</select>
+						</div>
+						<div class="form-group">
+
+							<label for="exampleInputPassword1">
+								车辆
+							</label>
+							<select class="form-control" id="deliver-car" name="cid">
+								{% for i in data['car'] %}
+								<option value="{{ i['cid'] }}">{{i['cplace']}} - {{i['cnumber']}}</option>
+								{% endfor %}
+						  	</select>
+						</div>
+						<div class="form-group">
+
+							<label for="exampleInputFile">
+								目前位置
+							</label>
+							<input type="text" class="form-control" id="deliver-status" name="status" />
+						</div>
+
+						<button type="submit" class="btn btn-primary">
+							Submit
+						</button>
+					</form>
+				</div>
+				<div class="col-md-3">
+					<h3>
+						更新状态
+					</h3>
+					<form role="form" action="/superadd/info" method="POST">
+						<div class="form-group">
+
+							<label for="exampleInputEmail1">
+								状态
+							</label>
+							<select class="form-control" id="info-info" name="iid">
+								{% for i in data['info'] %}
+								<option value="{{ i['iid'] }}">{{i['iid']}}</option>
+								{% endfor %}
+						  	</select>
+						</div>
+						<div class="form-group">
+
+							<label for="info-toxic">
+								Toxic
+							</label>
+							<input type="number" step="0.01" class="form-control" id="info-toxic" name="toxic"/>
+						</div>
+						<div class="form-group">
+
+							<label for="info-med">
+								Med
+							</label>
+							<input type="number" step="0.01" class="form-control" id="info-med" name="med"/>
+						</div>
+						<div class="form-group">
+
+							<label for="info-water">
+								Water
+							</label>
+							<input type="number" step="0.01" class="form-control" id="info-water" name="water"/>
+						</div>
+						<div class="form-group">
+
+							<label for="info-temp">
+								Temp
+							</label>
+							<input type="number" step="0.01" class="form-control" id="info-temp" name="temp"/>
+						</div>
+						<div class="form-group">
+
+							<label for="info-moist">
+								Moist
+							</label>
+							<input type="number" step="0.01" class="form-control" id="info-moist" name="moist"/>
+						</div>
+						<div class="form-group">
+
+							<label for="info-store">
+								Day
+							</label>
+							<input type="number" class="form-control" id="info-store" name="store"/>
+						</div>
+						<button type="submit" class="btn btn-primary">
+							Submit
+						</button>
+					</form>
+				</div>
+				<div class="col-md-3">
+					<h3>
+						增加产品
+					</h3>
+					<form role="form" action="superadd/product" method="POST">
+						<div class="form-group">
+
+							<label for="product-name">
+								商品名称
+							</label>
+							<input type="text" class="form-control" id="product-name" name="pname"/>
+						</div>
+						<div class="form-group">
+
+							<label for="product-price">
+								价格（元）
+							</label>
+							<input type="number" step="0.01" class="form-control" id="product-price" name="price" />
+						</div>
+						<button type="submit" class="btn btn-primary">
+							Submit
+						</button>
+					</form>
+				</div>
+				<div class="col-md-3">
+					<h3>
+						增加车辆
+					</h3>
+					<form role="form">
+						<div class="form-group">
+
+							<label for="exampleInputEmail1">
+								Email address
+							</label>
+							<input type="email" class="form-control" id="exampleInputEmail1" />
+						</div>
+						<div class="form-group">
+
+							<label for="exampleInputPassword1">
+								Password
+							</label>
+							<input type="password" class="form-control" id="exampleInputPassword1" />
+						</div>
+						<div class="form-group">
+
+							<label for="exampleInputFile">
+								File input
+							</label>
+							<input type="file" class="form-control-file" id="exampleInputFile" />
+							<p class="help-block">
+								Example block-level help text here.
+							</p>
+						</div>
+						<div class="checkbox">
+
+							<label>
+								<input type="checkbox" /> Check me out
+							</label>
+						</div>
+						<button type="submit" class="btn btn-primary">
+							Submit
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
