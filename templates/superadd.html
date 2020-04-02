@@ -232,9 +232,11 @@
 							<label for="exampleInputEmail1">
 								状态
 							</label>
-							<select class="form-control" id="info-info" name="iid">
-								{% for i in data['info'] %}
-								<option value="{{ i['iid'] }}">{{i['iid']}}</option>
+							<select class="form-control" id="info-info" name="oid">
+								{% for i in data['order'] %}
+									{% if i['did'] %}
+										<option value="{{ i['oid'] }}">{{i['oid']}}</option>
+									{% endif %}
 								{% endfor %}
 						  	</select>
 						</div>

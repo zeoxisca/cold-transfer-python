@@ -20,7 +20,7 @@ def show_page():
 
     data['product'] = Product.query.all()
 
-    data['order'] = Order.query.filter_by(did=None).all()
+    data['order'] = Order.query.filter_by().all()
 
     data['info'] = Info.query.all()
 
@@ -130,7 +130,8 @@ def add_alert(form):
 def add_deliver(form):
     oid = form['oid']
     order = Order.query.filter_by(oid=oid).first()
-
+    if order.status == 2:
+        return redirect(url_for("superadd_page"))
     addr = order.addr
     cid = form['cid']
 
@@ -138,10 +139,23 @@ def add_deliver(form):
 
     status = form['status']
 
-    if order.did == 0:
-        iid = str(time.time())[:9] + str(random.randint(10, 99)),
+    did = str(time.time())[:9] + str(random.randint(10, 99))
+    new_deliver = Deliver(
+        did=did,
+        oid=oid,
+        status=status,
+        addr=addr,
+        mid=mid,
+        cid=cid
+    )
+
+    order.did = did
+    if not order.status:
+        order.status = 1
+        iid = str(time.time())[:9] + str(random.randint(10, 99))
         new_info = Info(
             iid=iid,
+            oid=oid,
             toxic=28,
             med=90,
             water=80,
@@ -149,45 +163,34 @@ def add_deliver(form):
             moist=88,
             store=0,
         )
-        did = str(time.time())[:9] + str(random.randint(10, 99))
-        new_deliver = Deliver(
-            did=did,
-            iid=iid,
-            status=status,
-            addr=addr,
-            mid=mid,
-            cid=cid
-        )
-
-        order.did = did
-        order.status = 1
-
+        order.iid = iid
         db.session.add(new_info)
-        db.session.add(new_deliver)
-        db.session.commit()
-    elif order.did == 1:
-        deliver = Deliver.query.filter_by(did=order.did).first()
-        deliver.status = status
 
-        db.session.commit()
-    else:
-        pass
+    db.session.add(new_deliver)
+    db.session.commit()
 
     return redirect(url_for("superadd_page"))
 
 
 def add_info(form):
-    iid = form['iid']
+    oid = form['oid']
 
-    info = Info.query.filter_by(iid=iid).first()
+    iid = str(time.time())[:9] + str(random.randint(10, 99))
+    new_info = Info(
+        toxic=form['toxic'],
+        med=form['med'],
+        water=form['water'],
+        moist=form['moist'],
+        store=form['store'],
+        temp=form['temp'],
+        iid=iid,
+        oid=oid
+    )
 
-    info.toxic = form['toxic']
-    info.med = form['med']
-    info.water = form['water']
-    info.moist = form['moist']
-    info.store = form['store']
-    info.temp = form['temp']
+    order = Order.query.filter_by(oid=oid).first()
+    order.iid = iid
 
+    db.session.add(new_info)
     db.session.commit()
 
     # sendmsg

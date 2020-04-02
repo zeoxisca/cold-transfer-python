@@ -91,19 +91,19 @@ def showUser(uid):
 
         unrecieved = db.session.query(Order.oid, Product.pname, Deliver.updated_at, Deliver.status). \
             filter(Order.status == 1).\
-            filter(Product.pid == Order.pid, Deliver.did == Order.did)
+            filter(Product.pid == Order.pid, Deliver.did == Order.did, Order.uid == uid)
             # join(Order, Product.pid == Order.pid, Deliver.did == Order.did).\
 
         unsended = db.session.query(Order.oid, Product.pname, Order.created_at, Order.addr). \
             filter(Order.status == 0).\
-            filter(Product.pid == Order.pid)
+            filter(Product.pid == Order.pid, Order.uid == uid)
 
         received = db.session.query(Order.oid, Product.pname, Deliver.updated_at, Order.addr). \
             filter(Order.status == 2).\
-            filter(Product.pid == Order.pid, Deliver.did == Order.did)
+            filter(Product.pid == Order.pid, Deliver.did == Order.did, Order.uid == uid)
 
         orders = db.session.query(Order.oid, Product.pname, Order.updated_at, Order.status). \
-            filter(Product.pid == Order.pid)
+            filter(Product.pid == Order.pid, Order.uid == uid)
 
         data = {}
         data['user'] = user_data

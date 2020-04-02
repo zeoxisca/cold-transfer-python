@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>水产品-管理后台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="navbar-toggler-icon"></span>
+                    </button> <a class="navbar-brand" href="#">冷链后台管理</a>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="navbar-nav">
+<!--                            <li class="nav-item active">-->
+<!--                                 <a class="nav-link" href="#">Link <span class="sr-only">(current)</span></a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                 <a class="nav-link" href="#">Link</a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item dropdown">-->
+<!--                                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown">Dropdown link</a>-->
+<!--                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">-->
+<!--                                     <a class="dropdown-item" href="#">Action</a> <a class="dropdown-item" href="#">Another action</a> <a class="dropdown-item" href="#">Something else here</a>-->
+<!--                                    <div class="dropdown-divider">-->
+<!--                                    </div> <a class="dropdown-item" href="#">Separated link</a>-->
+<!--                                </div>-->
+<!--                            </li>-->
+                        </ul>
+                        <form class="form-inline" action="/searchorder" method="GET">
+                            <input class="form-control mr-sm-3" type="text" name="oid"/>
+                            <button class="btn btn-primary my-2 my-sm-0" type="submit">
+                                查询订单号
+                            </button>
+                        </form>
+                        <ul class="navbar-nav ml-md-auto">
+                            <li class="nav-item dropdown">
+                                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown">{{data['user']['name']}}</a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                    <div class="dropdown-divider">
+                                    </div> <a class="dropdown-item" href="/user/logout/">登出</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+    </div>
+        <div class="row col-md-10 offset-1" style="margin-top:40px;">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <h5 class="card-header">
+                                    订单信息
+                                </h5>
+                                <div class="card-body">
+                                    <div class="media">
+                                        <img class="mr-3" alt="Bootstrap Media Preview" src="https://www.layoutit.com/img/sports-q-c-64-64-8.jpg" />
+                                        <div class="media-body">
+                                            <h4 class="mt-0">
+                                                产品：{{data['order']['product']}}
+                                            </h4>
+                                            <h6 class="mt-1">
+                                                总价：
+                                            </h6>
+                                            <h5>
+                                                ￥{{ data['order']['price'] }} ( {{ data['order']['o_price']/100 }} 元 * {{ data['order']['sum'] }} 单位)
+                                            </h5>
+                                            <h6 class="mt-0">
+                                                订单创建时间：
+                                            </h6>
+                                            <h5>
+                                                {{data['order']['created_at']}}
+                                            </h5>
+
+                                            <h6>
+                                                联系电话：
+                                            </h6>
+                                            <h5>
+                                                {{data['order']['tel']}}
+                                            </h5>
+
+                                            <h6>
+                                                收货地址:
+                                            </h6>
+                                            <p style="font-size:12px;">
+                                                {{data['order']['addr']}}
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+<!--                                <div class="card-footer">-->
+<!--                                    Card footer-->
+<!--                                </div>-->
+                            </div>
+
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-1" style="float:right; padding-right:0px;">
+                                    <div class="btn-group btn-group-vertical" role="group">
+
+                                        <button class="btn btn-primary" type="button" style="margin-left:-1px;" onclick="dis1()">
+                                            快递信息
+                                        </button>
+                                        <button class="btn btn-warning" type="button" onclick="dis2()">
+                                            产品状态
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-11" style="padding-left:0px;">
+                                    <table class="table" id="tb1" style="display:;">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    序号
+                                                </th>
+                                                <th>
+                                                    更新时间
+                                                </th>
+                                                <th>
+                                                    车牌号
+                                                </th>
+                                                <th>
+                                                    位置
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        {% if data['order']['status'] == 2 %}
+                                            <tr class="table-success">
+                                                <td>
+
+                                                </td>
+                                                <td>
+                                                    {{data['order']['updated_at']}}
+                                                </td>
+                                                <td>
+                                                    已签收
+                                                </td>
+                                                <td>
+                                                    {{ data['order']['addr'] }} 处成功签收
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+
+                                        {% for i in range(data['len1']) %}
+                                            <tr>
+                                                <td>
+                                                    {{ i+1 }}
+                                                </td>
+                                                <td>
+                                                    {{ data['delivers'][i][6] }}
+                                                </td>
+                                                <td>
+                                                    {{ data['delivers'][i][2] }} · {{ data['delivers'][i][3] }}
+                                                </td>
+                                                <td>
+                                                    {{ data['delivers'][i][1] }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                            <tr class="table-warning">
+                                                <td>
+                                                    初始
+                                                </td>
+                                                <td>
+                                                    {{ data['order']['created_at'] }}
+                                                </td>
+                                                <td>
+                                                    待揽收
+                                                </td>
+                                                <td>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </td>
+
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <table class="table" id="tb2" style="display:none;">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    #
+                                                </th>
+                                                <th>
+                                                    Product
+                                                </th>
+                                                <th>
+                                                    Payment Taken
+                                                </th>
+                                                <th>
+                                                    Status
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    1
+                                                </td>
+                                                <td>
+                                                    TB - Monthly
+                                                </td>
+                                                <td>
+                                                    01/04/2012
+                                                </td>
+                                                <td>
+                                                    Default
+                                                </td>
+                                            </tr>
+                                            <tr class="table-active">
+                                                <td>
+                                                    1
+                                                </td>
+                                                <td>
+                                                    TB - Monthly
+                                                </td>
+                                                <td>
+                                                    01/04/2012
+                                                </td>
+                                                <td>
+                                                    Approved
+                                                </td>
+                                            </tr>
+                                            <tr class="table-success">
+                                                <td>
+                                                    2
+                                                </td>
+                                                <td>
+                                                    TB - Monthly
+                                                </td>
+                                                <td>
+                                                    02/04/2012
+                                                </td>
+                                                <td>
+                                                    Declined
+                                                </td>
+                                            </tr>
+                                            <tr class="table-warning">
+                                                <td>
+                                                    3
+                                                </td>
+                                                <td>
+                                                    TB - Monthly
+                                                </td>
+                                                <td>
+                                                    03/04/2012
+                                                </td>
+                                                <td>
+                                                    Pending
+                                                </td>
+                                            </tr>
+                                            <tr class="table-danger">
+                                                <td>
+                                                    4
+                                                </td>
+                                                <td>
+                                                    TB - Monthly
+                                                </td>
+                                                <td>
+                                                    04/04/2012
+                                                </td>
+                                                <td>
+                                                    Call in to confirm
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <script>
+                                var tb1 = document.getElementById('tb1');
+                                var tb2 = document.getElementById('tb2');
+                                function dis1(){
+                                    tb1.style.display = "";
+                                    tb2.style.display = "none";
+                                }
+                                function dis2(){
+                                    tb1.style.display = "none";
+                                    tb2.style.display = "";
+                                }
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+</body>
+</html>

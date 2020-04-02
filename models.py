@@ -29,11 +29,12 @@ class Order(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
     oid = db.Column(db.String(20), unique=True, nullable=False)         # 订单id
+    iid = db.Column(db.String(20), nullable=True)
     uid = db.Column(db.String(20), nullable=False)                      # 用户id
     aid = db.Column(db.String(20), nullable=False)                      # 商家id
     sum = db.Column(db.Integer, nullable=False)                         # 数量
     pid = db.Column(db.String(20), nullable=False)                      # 商品id
-    did = db.Column(db.String(20), nullable=True)                       # 运输id
+    did = db.Column(db.String(20), nullable=True)                       # 最新的运输id
     status = db.Column(db.Integer, default=0)                           # 0:未发货, 1:未收货, 2:已完成
     addr = db.Column(db.Text, nullable=False)
 
@@ -46,11 +47,11 @@ class Deliver(db.Model):
     __tablename__ = 'delivers'
     id = db.Column(db.Integer, primary_key=True)
     did = db.Column(db.String(20), nullable=False, unique=True)
+    oid = db.Column(db.String(20), nullable=False)
     cid = db.Column(db.String(20), nullable=False)  # 车id
     mid = db.Column(db.String(20), nullable=False)  # 驾驶员id
     addr = db.Column(db.Text, nullable=False)       # 目的地
     status = db.Column(db.Text, nullable=False)     # 目前位置
-    iid = db.Column(db.String(20), nullable=True)  # 指标id
 
     created_at = db.Column(db.TIMESTAMP, server_default=db.text('CURRENT_TIMESTAMP'), nullable=False)
     updated_at = db.Column(db.TIMESTAMP, server_default=db.text('CURRENT_TIMESTAMP'),
@@ -84,12 +85,15 @@ class Info(db.Model):
     __tablename__ = 'infos'
     id = db.Column(db.Integer, primary_key=True)
     iid = db.Column(db.String(20), unique=True, nullable=False)
+    oid = db.Column(db.String(20), nullable=False)
     toxic = db.Column(db.Float)
     med = db.Column(db.Float)
     water = db.Column(db.Float)
     temp = db.Column(db.Float)
     moist = db.Column(db.Float)
     store = db.Column(db.Float)
+
+    created_at = db.Column(db.TIMESTAMP, server_default=db.text('CURRENT_TIMESTAMP'),nullable=False)
 
 
 class Message(db.Model):

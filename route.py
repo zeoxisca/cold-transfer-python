@@ -164,3 +164,12 @@ def adddeliver():
 def addinfo():
     return testin.add_info(request.form)
 
+
+@url.route('/order/<oid>')
+def order_page(oid):
+    return orders.order_page(oid)
+
+
+@url.route('/searchorder', methods=['GET'])
+def search_order():
+    return redirect(url_for('order_page', oid=request.args.get('oid')))
