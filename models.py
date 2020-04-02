@@ -86,12 +86,13 @@ class Info(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     iid = db.Column(db.String(20), unique=True, nullable=False)
     oid = db.Column(db.String(20), nullable=False)
+    level = db.Column(db.Integer, nullable=False, default=0)    # 0: 无所谓， 1: 接近范围， 2: 1-2项超过， 3:3项以上超过
     toxic = db.Column(db.Float)
     med = db.Column(db.Float)
     water = db.Column(db.Float)
     temp = db.Column(db.Float)
     moist = db.Column(db.Float)
-    store = db.Column(db.Float)
+    store = db.Column(db.Integer)
 
     created_at = db.Column(db.TIMESTAMP, server_default=db.text('CURRENT_TIMESTAMP'),nullable=False)
 

@@ -81,7 +81,7 @@ def order_page(oid):
             Deliver.updated_at.desc()
         ).all()
 
-        info = Info.query.filter_by(oid=oid).all()
+        info = Info.query.filter_by(oid=oid).order_by(Info.created_at.desc()).all()
 
 
     data = {}

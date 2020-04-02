@@ -202,90 +202,120 @@
                                         <thead>
                                             <tr>
                                                 <th>
-                                                    #
+                                                    序号
                                                 </th>
                                                 <th>
-                                                    Product
+                                                    杆菌含量(MPN/100g)
                                                 </th>
                                                 <th>
-                                                    Payment Taken
+                                                    非药残(%)
                                                 </th>
                                                 <th>
-                                                    Status
+                                                    水分(%)
+                                                </th>
+                                                <th>
+                                                    均温(℃)
+                                                </th>
+                                                <th>
+                                                    均湿(%)
+                                                </th>
+                                                <th>
+                                                    存储时间(天)
+                                                </th>
+                                                <th>
+                                                    时间
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    1
-                                                </td>
-                                                <td>
-                                                    TB - Monthly
-                                                </td>
-                                                <td>
-                                                    01/04/2012
-                                                </td>
-                                                <td>
-                                                    Default
-                                                </td>
-                                            </tr>
-                                            <tr class="table-active">
-                                                <td>
-                                                    1
-                                                </td>
-                                                <td>
-                                                    TB - Monthly
-                                                </td>
-                                                <td>
-                                                    01/04/2012
-                                                </td>
-                                                <td>
-                                                    Approved
-                                                </td>
-                                            </tr>
+                                        {% for i in range(data['len2']) %}
+                                            {% if data['info'][i]['level'] <= 1%}
                                             <tr class="table-success">
-                                                <td>
-                                                    2
-                                                </td>
-                                                <td>
-                                                    TB - Monthly
-                                                </td>
-                                                <td>
-                                                    02/04/2012
-                                                </td>
-                                                <td>
-                                                    Declined
-                                                </td>
-                                            </tr>
-                                            <tr class="table-warning">
-                                                <td>
-                                                    3
-                                                </td>
-                                                <td>
-                                                    TB - Monthly
-                                                </td>
-                                                <td>
-                                                    03/04/2012
-                                                </td>
-                                                <td>
-                                                    Pending
-                                                </td>
-                                            </tr>
+
+                                                {% elif data['info'][i]['level'] == 2 %}
+                                            <tr class="table-info">
+
+                                                {% elif data['info'][i]['level'] == 3 %}
+                                                <tr class="table-warning">
+
+                                            {% elif data['info'][i]['level'] == 4 %}
                                             <tr class="table-danger">
+
+                                            {% endif %}
                                                 <td>
-                                                    4
+                                                    {% if i==0 %}
+                                                    最新
+                                                    {% else %}
+                                                    {{i+1}}
+                                                    {% endif %}
+                                                    <span class="badge badge-pill badge-danger"></span>
                                                 </td>
                                                 <td>
-                                                    TB - Monthly
+                                                    {{data['info'][i]['toxic']}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    {% if data['info'][i]['toxic'] > 30 %}
+                                                    <span class="badge badge-pill badge-danger">严重超标</span>
+                                                    {% elif data['info'][i]['toxic'] > 28 %}
+                                                    <span class="badge badge-pill badge-warning">接近超标</span>
+                                                    {% elif data['info'][i]['toxic'] > 25 %}
+                                                    <span class="badge badge-pill badge-info">轻微偏离</span>
+                                                    {% endif %}
                                                 </td>
                                                 <td>
-                                                    04/04/2012
+                                                    {{data['info'][i]['med']}}
+                                                    {% if data['info'][i]['med'] < 90 %}
+                                                    <span class="badge badge-pill badge-danger">严重超标</span>
+                                                    {% elif data['info'][i]['med'] < 93 %}
+                                                    <span class="badge badge-pill badge-warning">接近超标</span>
+                                                    {% elif data['info'][i]['med'] < 95 %}
+                                                    <span class="badge badge-pill badge-info">轻微偏离</span>
+                                                    {% endif %}
                                                 </td>
                                                 <td>
-                                                    Call in to confirm
+                                                    {{data['info'][i]['water']}}
+                                                    {% if data['info'][i]['water'] < 73 %}
+                                                    <span class="badge badge-pill badge-danger">严重超标</span>
+                                                    {% elif data['info'][i]['water'] < 75 %}
+                                                    <span class="badge badge-pill badge-warning">接近超标</span>
+                                                    {% elif data['info'][i]['water'] < 80 %}
+                                                    <span class="badge badge-pill badge-info">轻微偏离</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {{data['info'][i]['temp']}}
+                                                    {% if data['info'][i]['temp'] > 4 or data['info'][i]['temp'] < -0.5 %}
+                                                    <span class="badge badge-pill badge-danger">严重超标</span>
+                                                    {% elif data['info'][i]['temp'] > 3.5 or data['info'][i]['temp'] < 0 %}
+                                                    <span class="badge badge-pill badge-warning">接近超标</span>
+                                                    {% elif data['info'][i]['temp'] != 1 %}
+                                                    <span class="badge badge-pill badge-info">轻微偏离</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {{data['info'][i]['moist']}}
+                                                    {% if data['info'][i]['moist'] > 95 or data['info'][i]['moist'] < 85 %}
+                                                    <span class="badge badge-pill badge-danger">严重超标</span>
+                                                    {% elif data['info'][i]['moist'] > 93 or data['info'][i]['moist'] < 87 %}
+                                                    <span class="badge badge-pill badge-warning">接近超标</span>
+                                                    {% elif data['info'][i]['moist'] != 90 %}
+                                                    <span class="badge badge-pill badge-info">轻微偏离</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {{data['info'][i]['store']}}
+                                                    {% if data['info'][i]['store'] > 14 %}
+                                                    <span class="badge badge-pill badge-danger">严重超标</span>
+                                                    {% elif data['info'][i]['store'] > 10 %}
+                                                    <span class="badge badge-pill badge-warning">接近超标</span>
+                                                    {% elif data['info'][i]['store'] > 7 %}
+                                                    <span class="badge badge-pill badge-info">轻微偏离</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {{data['info'][i]['created_at']}}
                                                 </td>
                                             </tr>
+                                        {% endfor %}
+
                                         </tbody>
                                     </table>
                                 </div>

@@ -149,11 +149,11 @@ def show_backstage():
 
     aname = admin.a_name
     aid = session.get('aid')
-    orders = Order.query.filter_by(aid=aid).limit(8)
+    orders = Order.query.filter_by(aid=aid).all()
     order = []
     order_num = Order.query.filter_by(aid=aid).count()
     d_num = Order.query.filter(Order.aid == aid, Order.did is not None).count()
-    n_num = Order.query.filter(Order.aid == aid, Order.status == 1).count()
+    n_num = Order.query.filter(Order.aid == aid, Order.status != 2).count()
     mem_num = User.query.count()
     msg_num = Message.query.filter_by(msgfor=2, toid=aid).count()
     a_num = Alert.query.filter_by(msgfor=2, toid=aid, valid=1).count()

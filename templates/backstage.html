@@ -43,8 +43,8 @@
 <!--                                </div>-->
 <!--                            </li>-->
                         </ul>
-                        <form class="form-inline">
-                            <input class="form-control mr-sm-3" type="text"/>
+                        <form class="form-inline" action="/searchorder" method="GET">
+                            <input class="form-control mr-sm-3" type="text" name="oid"/>
                             <button class="btn btn-primary my-2 my-sm-0" type="submit">
                                 查询订单号
                             </button>
@@ -198,7 +198,7 @@
                         {% for i in data['orders'] %}
                             <tr class="table-active">
                                 <td >
-                                    <a href="#"> {{i['oid']}}</a>
+                                    <a href="/order/{{i['oid']}}"> {{i['oid']}}</a>
                                 </td>
                                 <td>
                                     {{i['addr']}}

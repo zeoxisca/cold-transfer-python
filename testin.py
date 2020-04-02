@@ -176,6 +176,61 @@ def add_info(form):
     oid = form['oid']
 
     iid = str(time.time())[:9] + str(random.randint(10, 99))
+
+    score = 0
+
+    if float(form['toxic']) > 30:
+        score += 1
+    elif float(form['toxic']) > 28:
+        score += 0.1
+    elif float(form['toxic']) > 25:
+        score += 0.01
+
+    if float(form['med']) < 90:
+        score += 1
+    elif float(form['med']) < 93:
+        score += 0.1
+    elif float(form['med']) < 95:
+        score += 0.01
+
+    if float(form['water']) < 73:
+        score += 1
+    elif float(form['water']) < 75:
+        score += 0.1
+    elif float(form['water']) < 80:
+        score += 0.01
+
+    if float(form['temp']) > 4 or float(form['temp']) < -0.5:
+        score += 1
+    elif float(form['temp']) > 3.5 or float(form['temp']) < 0:
+        score += 0.1
+    elif float(form['temp']) != 1:
+        score += 0.01
+
+    if float(form['moist']) > 95 or float(form['moist']) < 85:
+        score += 1
+    elif float(form['moist']) > 93 or float(form['moist']) < 87:
+        score += 0.1
+    elif float(form['moist']) != 90:
+        score += 0.01
+
+    if int(form['store']) > 14:
+        score += 1
+    elif int(form['store']) > 10:
+        score += 0.1
+    elif int(form['store']) > 7:
+        score += 0.01
+
+    level = 0
+    if score > 2:
+        level = 4
+    elif score > 0.2:
+        level = 3
+    elif score > 0.02:
+        level = 2
+    else:
+        level = 1
+
     new_info = Info(
         toxic=form['toxic'],
         med=form['med'],
@@ -184,6 +239,7 @@ def add_info(form):
         store=form['store'],
         temp=form['temp'],
         iid=iid,
+        level=level,
         oid=oid
     )
 
