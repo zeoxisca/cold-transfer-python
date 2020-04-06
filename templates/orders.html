@@ -51,7 +51,7 @@
                         </form>
                         <ul class="navbar-nav ml-md-auto">
                             <li class="nav-item dropdown">
-                                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown">{{data['aname']}}</a>
+                                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown">{{data['name']}}</a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                                     <div class="dropdown-divider">
                                     </div> <a class="dropdown-item" href="/admin/logout/">登出</a>
@@ -62,10 +62,10 @@
                 </nav>
             </div>
         </div>
-        <div class="row" style="margin-top:20px;">
-            <div class="col-md-3">
+        <div class="row col-md-10 offset-1" style="margin-top:20px;">
+            <div class="col-md-3" style="margin-top:50px;">
                 <div class="list-group">
-                    <a href="/admin/backstage" class="list-group-item list-group-item-action active">主页</a>
+                    <a href="/admin/backstage" class="list-group-item list-group-item-action">主页</a>
                     <a href='/admin/delivers' class="list-group-item list-group-item-action">
                         运输情况
                     </a>
@@ -75,19 +75,19 @@
                     <a href="/admin/alerts" class="list-group-item list-group-item-action justify-content-between">
                         预警
                         {% if data['level'] == 4 %}
-                            <span class="badge badge-danger badge-pill"> {{ data['a_num'] }} </span>
+                            <span class="badge badge-danger badge-pill"> {{ data['alert_num'] }} </span>
                         {% endif %}
                         {% if data['level'] == 3 %}
-                            <span class="badge badge-warning badge-pill"> {{ data['a_num'] }} </span>
+                            <span class="badge badge-warning badge-pill"> {{ data['alert_num'] }} </span>
                         {% endif %}
                         {% if data['level'] == 2 %}
-                            <span class="badge badge-info badge-pill"> {{ data['a_num'] }} </span>
+                            <span class="badge badge-info badge-pill"> {{ data['alert_num'] }} </span>
                         {% endif %}
                         {% if data['level'] == 1 %}
-                            <span class="badge badge-success badge-pill"> {{ data['a_num'] }} </span>
+                            <span class="badge badge-success badge-pill"> {{ data['alert_num'] }} </span>
                         {% endif %}
                         {% if data['level'] == 0 %}
-                            <span class="badge badge-secondary badge-pill"> {{ data['a_num'] }} </span>
+                            <span class="badge badge-secondary badge-pill"> {{ data['alert_num'] }} </span>
                         {% endif %}
                     </a>
                 </div>
@@ -134,49 +134,25 @@
                         </div>
                     {% endif %}
                 </div>
-                <div class="row" style="height:80%;">
-                    <div class="col-md-3">
-                        <Button type="button" class="btn btn-danger btn-block" style="height:80%" onclick="location='/admin/orders'">
-                            <h1>
-                                {{data['num1']}}
-                            </h1>
-                            <p>
-                                总订单数
-                            </p>
-                        </Button>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-success btn-block" style="height:80%" onclick="location='/admin/cars'">
-                            <h1>
-                                {{data['num2']}}
-                            </h1>
-                            <p>
-                                在运货车
-                            </p>
-                        </button>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-info btn-block" style="height:80%" onclick="location='/admin/orders'">
-                            <h1>
-                                {{data['num3']}}
-                            </h1>
-                            <p>
-                                进行中的订单
-                            </p>
-                        </button>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-secondary btn-block" style="height:80%" onclick="location='/admin/users'">
-                            <h1>
-                                {{data['num4']}}
-                            </h1>
-                            <p>
-                                用户量
-                            </p>
-                        </button>
+                <div class="row" style="margin-top:50px;">
+                    <div class="col-md-12">
+                        <div class="btn-group btn-group-lg" role="group">
+
+                            <button class="btn btn-primary" type="button">
+                                全部订单
+                            </button>
+                            <button class="btn btn-success" type="button">
+                                &nbsp;未发货&nbsp;
+                            </button>
+                            <button class="btn btn-danger" type="button">
+                                &nbsp;已发货&nbsp;
+                            </button>
+                            <button class="btn btn-info" type="button">
+                                &nbsp;已结束&nbsp;
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <a href="/admin/orders/">更多订单</a>
                 <table class="table">
                     <thead>
                         <tr>
@@ -195,22 +171,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for i in data['orders'] %}
                             <tr class="table-info">
                                 <td >
-                                    <a href="/order/{{i['oid']}}"> {{i['oid']}}</a>
+                                    <a href="/order/id"> id</a>
                                 </td>
                                 <td>
-                                    {{i['addr']}}
+                                    addr
                                 </td>
                                 <td>
-                                    {{i['time']}}
+                                    time
                                 </td>
                                 <td>
-                                    {{i['now']}}
+                                    now_at
                                 </td>
                             </tr>
-                        {% endfor %}
 <!--                        <tr class="table-active">-->
 <!--                            <td>-->
 <!--                                1-->

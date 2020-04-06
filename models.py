@@ -119,6 +119,7 @@ class Alert(db.Model):
     title = db.Column(db.Text, nullable=False)
     level = db.Column(db.Integer, nullable=False, default=0)    # 0: 轻微偏离， 1: 接近范围， 2: 1-2项超过， 3:3项以上超过
     oid = db.Column(db.String(20), nullable=False)
+    iid = db.Column(db.String(20), nullable=False)
     item = db.Column(db.Integer, nullable=False)            # max: 63 111111
 
     valid = db.Column(db.Integer, nullable=False, default=1)    # 0: 读过，1: 未读。

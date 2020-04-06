@@ -2,7 +2,7 @@ import route
 import time
 import re
 import random
-from models import User, db, Admin, Order, Deliver, Message, Alert, Product
+from models import User, db, Admin, Order, Deliver, Message, Alert, Product, Car
 from flask import render_template, session, redirect, url_for
 
 import hashlib
@@ -149,13 +149,13 @@ def show_backstage():
 
     aname = admin.a_name
     aid = session.get('aid')
-    orders = Order.query.filter_by(aid=aid).all()
+    orders = Order.query.filter(Order.status == 1).all()
     order = []
-    order_num = Order.query.filter_by(aid=aid).count()
-    d_num = Order.query.filter(Order.aid == aid, Order.did is not None).count()
-    n_num = Order.query.filter(Order.aid == aid, Order.status != 2).count()
+    order_num = Order.query.count()
+    d_num = Car.query.filter(Car.active == 1).count()
+    n_num = Order.query.filter(Order.status != 2).count()
     mem_num = User.query.count()
-    msg_num = Message.query.filter_by(msgfor=2, toid=aid).count()
+    msg_num = Message.query.filter_by(msgfor=2).count()
     a_num = Alert.query.filter_by(msgfor=2, toid=aid, valid=1).count()
 
     if Alert.query.filter_by(toid=aid, msgfor=2, level=3, valid=1).count() > 0:          # 顶级

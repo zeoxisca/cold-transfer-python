@@ -8,6 +8,9 @@ from flask import render_template, session, redirect, url_for
 import hashlib
 
 
+ALERT_MSG = ['testmsg-level1','testmsg-level2','testmsg-level3','testmsg-level4']
+ALERT_TITLE = ['testtesttitle-level1','testtesttitle-level2','testtesttitle-level3','testtitle-level4']
+
 def show_page():
     data = {}
     man = Man.query.all()
@@ -135,7 +138,11 @@ def add_deliver(form):
     addr = order.addr
     cid = form['cid']
 
-    mid = Car.query.filter_by(cid=cid).first().mid
+    car = Car.query.filter_by(cid=cid).first()
+
+    mid = car.mid
+
+    car.active = 1
 
     status = form['status']
 
@@ -173,6 +180,7 @@ def add_deliver(form):
 
 
 def add_info(form):
+    item = 0
     oid = form['oid']
 
     iid = str(time.time())[:9] + str(random.randint(10, 99))
@@ -181,45 +189,63 @@ def add_info(form):
 
     if float(form['toxic']) > 30:
         score += 1
+        item += pow(2, 5)
     elif float(form['toxic']) > 28:
         score += 0.1
+        item += pow(2, 5)
     elif float(form['toxic']) > 25:
         score += 0.01
+        item += pow(2, 5)
 
     if float(form['med']) < 90:
         score += 1
+        item += pow(2, 4)
     elif float(form['med']) < 93:
         score += 0.1
+        item += pow(2, 4)
     elif float(form['med']) < 95:
         score += 0.01
+        item += pow(2, 4)
 
     if float(form['water']) < 73:
         score += 1
+        item += pow(2, 3)
     elif float(form['water']) < 75:
         score += 0.1
+        item += pow(2, 3)
     elif float(form['water']) < 80:
         score += 0.01
+        item += pow(2, 3)
 
     if float(form['temp']) > 4 or float(form['temp']) < -0.5:
         score += 1
+        item += pow(2, 2)
     elif float(form['temp']) > 3.5 or float(form['temp']) < 0:
         score += 0.1
+        item += pow(2, 2)
     elif float(form['temp']) != 1:
         score += 0.01
+        item += pow(2, 2)
 
     if float(form['moist']) > 95 or float(form['moist']) < 85:
         score += 1
+        item += pow(2, 1)
     elif float(form['moist']) > 93 or float(form['moist']) < 87:
         score += 0.1
+        item += pow(2, 1)
     elif float(form['moist']) != 90:
         score += 0.01
+        item += pow(2, 1)
 
     if int(form['store']) > 14:
         score += 1
+        item += pow(2, 0)
     elif int(form['store']) > 10:
         score += 0.1
+        item += pow(2, 0)
     elif int(form['store']) > 7:
         score += 0.01
+        item += pow(2, 0)
 
     level = 0
     if score > 2:
@@ -240,7 +266,7 @@ def add_info(form):
         temp=form['temp'],
         iid=iid,
         level=level,
-        oid=oid
+        oid=oid,
     )
 
     order = Order.query.filter_by(oid=oid).first()
@@ -249,7 +275,22 @@ def add_info(form):
     db.session.add(new_info)
     db.session.commit()
 
-    # sendmsg
+    if level != 0:
+        aids = db.session.query(Admin.aid).all()
+        for i in aids:
+            new_alert = Alert(
+                msgfor=2,
+                toid=str(i[0]),
+                msg=ALERT_MSG[level-1],
+                title=ALERT_TITLE[level-1],
+                oid=oid,
+                item=item,
+                valid=1,
+                level=level-1,
+                iid=iid,
+            )
+            db.session.add(new_alert)
+            db.session.commit()
 
     return redirect(url_for("superadd_page"))
 

@@ -1,7 +1,7 @@
 import app
 from flask import render_template, request, session, redirect, url_for
 from urllib import parse
-import users, orders, testin
+import users, orders, testin, alerts, cars
 
 url = app.app
 
@@ -173,3 +173,23 @@ def order_page(oid):
 @url.route('/searchorder', methods=['GET'])
 def search_order():
     return redirect(url_for('order_page', oid=request.args.get('oid')))
+
+
+@url.route('/admin/orders/')
+def admin_orders():
+    return orders.show_orders()
+
+
+@url.route('/admin/alerts')
+def admin_alerts():
+    return alerts.show_alerts()
+
+
+@url.route('/admin/users')
+def admin_users():
+    return users.admin_users()
+
+
+@url.route('/admin/cars')
+def admin_cars():
+    return cars.admin_cars()

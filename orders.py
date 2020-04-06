@@ -1,4 +1,4 @@
-from models import Order, db, User, Admin, Deliver, Product, Man, Car, Info
+from models import Order, db, User, Admin, Deliver, Product, Man, Car, Info, Alert
 from flask import render_template, session, redirect, url_for
 import random, time
 
@@ -47,7 +47,7 @@ def order_page(oid):
     user = User.query.filter_by(uid=order.uid).first()
     admin = Admin.query.filter_by(aid=order.aid).first()
 
-    if session.get('uid') != order.uid and session.get('aid') != order.aid:
+    if session.get('uid') != order.uid and not session.get('aid'):
         return redirect(url_for('error', msg='请求错误', info='只能查询和自己相关的订单', link='home'))
 
     name = ''
@@ -113,3 +113,65 @@ def order_page(oid):
         data['len2'] = 0
 
     return render_template('order.html', data=data)
+
+
+def show_orders():
+    aid = session.get('aid')
+    if not aid:
+        return redirect(url_for('error', msg='请登录', info='这是管理员才能查看的页面', link='admin%2flogin'))
+
+    send_orders = db.session.query(
+        Order.oid,
+        Product.pname,
+        Order.sum,
+        Product.price,
+        User.user_name,
+        User.tel,
+        Order.addr,
+        Order.status,
+        Info,
+        Deliver,
+        Car,
+        Man
+    ).filter(
+        Order.did == Deliver.did,
+        Order.iid == Info.iid,
+        User.uid == Order.uid,
+        Car.cid == Deliver.cid,
+        Man.mid == Car.mid,
+        Order.pid == Product.pid
+    ).order_by(Order.created_at.desc()).all()
+
+    unsend_orders = db.session.query(
+        Order.oid,
+        Product.pname,
+        Order.sum,
+        Product.price,
+        User.user_name,
+        User.tel,
+        Order.addr
+    ).filter(
+        User.uid == Order.uid,
+        Order.status == 0,
+        Product.pid == Order.pid
+    ).order_by(Order.created_at.desc()).all()
+
+    if Alert.query.filter_by(toid=aid, msgfor=2, level=3, valid=1).count() > 0:          # 顶级
+        level = 4
+    elif Alert.query.filter_by(toid=aid, msgfor=2, level=2, valid=1).count() > 0:
+        level = 3
+    elif Alert.query.filter_by(toid=aid, msgfor=2, level=1, valid=1).count() > 0:        # 开始弹窗
+        level = 2
+    elif Alert.query.filter_by(toid=aid, msgfor=2, level=0, valid=1).count() > 0:
+        level = 1
+    else:                                                           # 无事
+        level = 0
+
+    data = {}
+    data['name'] = Admin.query.filter_by(aid=aid).first().a_name
+    data['send'] = send_orders
+    data['unsend'] = unsend_orders
+    data['alert_num'] = Alert.query.filter_by(msgfor=2, toid=aid, valid=1).count()
+    data['level'] = level
+
+    return render_template('orders.html', data=data)
