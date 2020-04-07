@@ -72,7 +72,7 @@
 <!--                    <a href='#' class="list-group-item justify-content-between list-group-item-action">-->
 <!--                        消息 <span class="badge badge-secondary badge-pill"> {{ data['m_num'] }} </span>-->
 <!--                    </a>-->
-                    <a href="/admin/alerts" class="list-group-item list-group-item-action justify-content-between">
+                    <a href="/admin/alerts" class="list-group-item list-group-item-action justify-content-between active">
                         预警
                         {% if data['level'] == 4 %}
                             <span class="badge badge-danger badge-pill"> {{ data['alert_num'] }} </span>
@@ -98,108 +98,106 @@
                     <div class="col-md-12">
                         <div class="btn-group btn-group-lg" role="group">
 
-                            <button class="btn btn-primary" type="button">
-                                全部
+                            <button class="btn btn-primary btn-sm" type="button">
+                                全部预警
                             </button>
-                            <button class="btn btn-success" type="button">
-                                已读
-                            </button>
-                            <button class="btn btn-danger" type="button">
-                                未读
-                            </button>
+<!--                            <button class="btn btn-success" type="button">-->
+<!--                                已读-->
+<!--                            </button>-->
+<!--                            <button class="btn btn-danger" type="button">-->
+<!--                                未读-->
+<!--                            </button>-->
                         </div>
                     </div>
                 </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                订单号
-                            </th>
-                            <th>
-                                目的地
-                            </th>
-                            <th>
-                                更新时间
-                            </th>
-                            <th>
-                                位置
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                            <tr class="table-info">
-                                <td >
-                                    <a href="/order/id"> id</a>
-                                </td>
-                                <td>
-                                    addr
-                                </td>
-                                <td>
-                                    time
-                                </td>
-                                <td>
-                                    now_at
-                                </td>
-                            </tr>
-<!--                        <tr class="table-active">-->
-<!--                            <td>-->
-<!--                                1-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                TB - Monthly-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                01/04/2012-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                Approved-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr class="table-success">-->
-<!--                            <td>-->
-<!--                                2-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                TB - Monthly-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                02/04/2012-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                Declined-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr class="table-warning">-->
-<!--                            <td>-->
-<!--                                3-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                TB - Monthly-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                03/04/2012-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                Pending-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr class="table-danger">-->
-<!--                            <td>-->
-<!--                                4-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                TB - Monthly-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                04/04/2012-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                Call in to confirm-->
-<!--                            </td>-->
-<!--                        </tr>-->
-                    </tbody>
-                </table>
+
+                <div class="row" style="">
+                    <div class="col-md-12">
+                        <div id="card-719734">
+                            {% for i in range(data['alert_len']) %}
+                            <div class="card
+                            {% if data['level'] == 4 %}
+                                bg-danger
+                                text-white
+                             {% elif data['level'] == 3 %}
+                                bg-warning
+                                text-white
+                             {% elif data['level'] == 2 %}
+                                bg-info
+                                text-white
+                             {% endif %}
+                                ">
+                                <div class="card-header">
+                                    <span class="badge-pill badge-primary" style="font-size:10px;"></span>&nbsp;&nbsp;
+                                     <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-719734" href="#card-element-{{data['alerts'][i][0]['id']}}" style="{%if data['level'] == 1%} {% else %}color:white;{% endif %}">{{i+1}} - {{data['alerts'][i][0]['title']}}  </a>
+                                    <a href="/admin/delalert/{{data['alerts'][i][0]['id']}}" style="float:right;text-decoration:none;{%if data['level'] == 1%} {% else %}color:white;{% endif %}"> 删除消息 ×</a>
+                                    <a href="/order/{{ data['alerts'][i][0]['oid'] }}" style="float:right;text-decoration:none;{%if data['level'] == 1%} {% else %}color:white;{% endif %}">查看订单 &nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                    <a href="#" style="float:right; text-decoration:none;{%if data['level'] == 1%} color:black; {% else %}color:white;{% endif %}"> {{data['alerts'][i][0]['created_at'] }} &nbsp;&nbsp; </a>
+                                </div>
+                                <div id="card-element-{{data['alerts'][i][0]['id']}}" class="collapse bg-light">
+                                    <div class="card-body">
+                                        <p style="color:black;">
+                                            {{data['alerts'][i][0]['msg']}}
+                                        </p>
+                                        <table class="table" style="">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        产品名
+                                                    </th>
+                                                    <th>
+                                                        toxic
+                                                    </th>
+                                                    <th>
+                                                        med
+                                                    </th>
+                                                    <th>
+                                                        water
+                                                    </th>
+                                                    <th>
+                                                        temp
+                                                    </th>
+                                                    <th>
+                                                        moist
+                                                    </th>
+                                                    <th>
+                                                        store
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        {{ data['alerts'][i][2]}}
+                                                    </td>
+                                                    <td>
+                                                        {{ data['alerts'][i][1]['toxic'] }}
+                                                    </td>
+                                                    <td>
+                                                        {{ data['alerts'][i][1]['med'] }}
+                                                    </td>
+                                                    <td>
+                                                        {{ data['alerts'][i][1]['water'] }}
+                                                    </td>
+                                                    <td>
+                                                        {{ data['alerts'][i][1]['temp'] }}
+                                                    </td>
+                                                    <td>
+                                                        {{ data['alerts'][i][1]['moist'] }}
+                                                    </td>
+                                                    <td>
+                                                        {{ data['alerts'][i][1]['store'] }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

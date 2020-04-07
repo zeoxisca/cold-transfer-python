@@ -193,3 +193,8 @@ def admin_users():
 @url.route('/admin/cars')
 def admin_cars():
     return cars.admin_cars()
+
+
+@url.route('/admin/delalert/<id>')
+def del_alert(id):
+    return alerts.del_alerts(id)
