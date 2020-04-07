@@ -34,6 +34,7 @@ class Order(db.Model):
     aid = db.Column(db.String(20), nullable=False)                      # 商家id
     sum = db.Column(db.Integer, nullable=False)                         # 数量
     pid = db.Column(db.String(20), nullable=False)                      # 商品id
+    alevel = db.Column(db.Integer, nullable=False, default=0)
     did = db.Column(db.String(20), nullable=True)                       # 最新的运输id
     status = db.Column(db.Integer, default=0)                           # 0:未发货, 1:未收货, 2:已完成
     addr = db.Column(db.Text, nullable=False)

@@ -132,7 +132,8 @@ def show_orders():
         Info,
         Deliver,
         Car,
-        Man
+        Man,
+        Order.alevel,
     ).filter(
         Order.did == Deliver.did,
         Order.iid == Info.iid,

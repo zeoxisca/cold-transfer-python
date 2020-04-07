@@ -289,6 +289,7 @@ def add_info(form):
                 level=level-1,
                 iid=iid,
             )
+            order.alevel = level-1
             db.session.add(new_alert)
             db.session.commit()
 
