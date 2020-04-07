@@ -53,3 +53,12 @@ def del_alerts(id):
     db.session.commit()
 
     return redirect(url_for('admin_alerts'))
+
+
+def read_alert(id):
+    alert = Alert.query.filter_by(id=id).first()
+    alert.valid = 0
+
+    db.session.commit()
+
+    return '2'

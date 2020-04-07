@@ -198,3 +198,9 @@ def admin_cars():
 @url.route('/admin/delalert/<id>')
 def del_alert(id):
     return alerts.del_alerts(id)
+
+
+@url.route('/alert/read/<id>')
+def read_alert(id):
+    return alerts.read_alert(id)
+

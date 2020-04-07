@@ -128,8 +128,11 @@
                              {% endif %}
                                 ">
                                 <div class="card-header">
-                                    <span class="badge-pill badge-primary" style="font-size:10px;"></span>&nbsp;&nbsp;
-                                     <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-719734" href="#card-element-{{data['alerts'][i][0]['id']}}" style="{%if data['level'] == 1%} {% else %}color:white;{% endif %}">{{i+1}} - {{data['alerts'][i][0]['title']}}  </a>
+
+                                    {% if data['alerts'][i][0]['valid'] == 1 %}
+                                    <span class="badge-pill badge-primary" id="span" style="font-size:10px;display:;"></span>&nbsp;&nbsp;
+                                    {% endif %}
+                                     <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-719734" onclick="showHint({{data['alerts'][i][0]['id']}})" href="#card-element-{{data['alerts'][i][0]['id']}}" style="{%if data['level'] == 1%} {% else %}color:white;{% endif %}">{{i+1}} - {{data['alerts'][i][0]['title']}}  </a>
                                     <a href="/admin/delalert/{{data['alerts'][i][0]['id']}}" style="float:right;text-decoration:none;{%if data['level'] == 1%} {% else %}color:white;{% endif %}"> 删除消息 ×</a>
                                     <a href="/order/{{ data['alerts'][i][0]['oid'] }}" style="float:right;text-decoration:none;{%if data['level'] == 1%} {% else %}color:white;{% endif %}">查看订单 &nbsp;&nbsp;&nbsp;&nbsp;</a>
                                     <a href="#" style="float:right; text-decoration:none;{%if data['level'] == 1%} color:black; {% else %}color:white;{% endif %}"> {{data['alerts'][i][0]['created_at'] }} &nbsp;&nbsp; </a>
@@ -201,6 +204,33 @@
             </div>
         </div>
     </div>
+<script type="text/javascript">
 
+var xmlHttp=null;
+
+function showHint(id)
+{
+try
+  {// Firefox, Opera 8.0+, Safari, IE7
+  xmlHttp=new XMLHttpRequest();
+  }
+catch(e)
+  {// Old IE
+  try
+    {
+    xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+  catch(e)
+    {
+    alert ("Your browser does not support XMLHTTP!");
+    return;
+    }
+  }
+var url="/alert/read/" + id;
+xmlHttp.open("GET",url,false);
+xmlHttp.send(null);
+document.getElementById("span").style.display="none";
+}
+</script>
 </body>
 </html>
