@@ -173,5 +173,15 @@ def show_orders():
     data['unsend'] = unsend_orders
     data['alert_num'] = Alert.query.filter_by(msgfor=2, toid=aid, valid=1).count()
     data['level'] = level
+    data['all_len'] = len(send_orders) + len(unsend_orders)
+    data['send_len'] = len(send_orders)
+    data['unsend_len'] = len(unsend_orders)
+
+    lenlen = 0
+    for i in send_orders:
+        if i[7] == 2:
+            lenlen += 1
+
+    data['end_len'] = lenlen
 
     return render_template('orders.html', data=data)
