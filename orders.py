@@ -173,9 +173,18 @@ def show_orders():
     data['unsend'] = unsend_orders
     data['alert_num'] = Alert.query.filter_by(msgfor=2, toid=aid, valid=1).count()
     data['level'] = level
-    data['all_len'] = len(send_orders) + len(unsend_orders)
+
     data['send_len'] = len(send_orders)
+    data['send_row_len'] = data['send_len'] // 3
+    if data['send_len'] % 3 != 0:
+        data['send_row_len'] += 1
     data['unsend_len'] = len(unsend_orders)
+    data['unsend_row_len'] = data['unsend_len'] // 3
+    if data['unsend_len'] % 3 != 0:
+        data['unsend_row_len'] += 1
+    data['all_len'] = len(send_orders) + len(unsend_orders)
+    data['all_row_len'] = data['send_row_len'] + data['unsend_row_len']
+
 
     lenlen = 0
     for i in send_orders:
@@ -183,5 +192,8 @@ def show_orders():
             lenlen += 1
 
     data['end_len'] = lenlen
+    data['end_row_len'] = data['end_len'] // 3
+    if data['end_len'] % 3 != 0:
+        data['end_row_len'] += 1
 
     return render_template('orders.html', data=data)
