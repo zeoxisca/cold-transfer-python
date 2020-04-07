@@ -198,3 +198,43 @@ def show_orders():
         data['end_row_len'] += 1
 
     return render_template('orders.html', data=data)
+
+
+def admin_delivers():
+    data = {}
+    aid = session.get('aid')
+    if not aid:
+        return redirect(url_for('error', msg='请登录', info='这是管理员才能查看的页面', link='admin%2flogin'))
+
+    data['alert_num'] = Alert.query.filter_by(msgfor=2, toid=aid, valid=1).count()
+    if Alert.query.filter_by(toid=aid, msgfor=2, level=3, valid=1).count() > 0:          # 顶级
+        level = 4
+    elif Alert.query.filter_by(toid=aid, msgfor=2, level=2, valid=1).count() > 0:
+        level = 3
+    elif Alert.query.filter_by(toid=aid, msgfor=2, level=1, valid=1).count() > 0:        # 开始弹窗
+        level = 2
+    elif Alert.query.filter_by(toid=aid, msgfor=2, level=0, valid=1).count() > 0:
+        level = 1
+    else:                                                           # 无事
+        level = 0
+    data['level'] = level
+
+    cars = db.session.query(
+        Car.cplace,
+        Car.cnumber,
+        Man.name,
+        Man.tel,
+        Car.status,
+        Car.active,
+        Car.cid,
+    ).filter(Car.mid == Man.mid).order_by(Car.active.desc()).all()
+
+    delivers = []
+    for i in cars:
+        deliver = Deliver.query.filter_by(cid=i[6]).order_by(Deliver.created_at.desc()).all()
+        delivers.append(deliver)
+    data['delivers'] = delivers
+    data['car_len'] = len(cars)
+    data['cars'] = cars
+
+    return render_template('delivers.html', data=data)

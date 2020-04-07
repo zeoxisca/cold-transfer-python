@@ -39,15 +39,20 @@ def add_car(form):
     cplace = form['cnum'][:2]
     cnumber = form['cnum'][2:]
 
-    new_car = Car(
-        cid = str(time.time())[:9]+str(random.randint(10, 99)),
-        mid=mid,
-        status=place,
-        active=active,
-        cplace=cplace,
-        cnumber=cnumber
-    )
-    db.session.add(new_car)
+    car = Car.query.filter_by(cplace=cplace, cnumber=cnumber).first()
+    if not car:
+        new_car = Car(
+            cid=str(time.time())[:9]+str(random.randint(10, 99)),
+            mid=mid,
+            status=place,
+            active=active,
+            cplace=cplace,
+            cnumber=cnumber
+        )
+        db.session.add(new_car)
+    else:
+        car.status = place
+        car.active = active
     db.session.commit()
     return redirect(url_for('superadd_page'))
 
@@ -145,6 +150,7 @@ def add_deliver(form):
     car.active = 1
 
     status = form['status']
+    car.status = form['status']
 
     did = str(time.time())[:9] + str(random.randint(10, 99))
     new_deliver = Deliver(
