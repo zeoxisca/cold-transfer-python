@@ -185,6 +185,11 @@ def admin_alerts():
     return alerts.show_alerts()
 
 
+@url.route('/admin/delivers/')
+def admin_delivers():
+    return orders.admin_delivers()
+
+
 @url.route('/admin/users')
 def admin_users():
     return users.admin_users()
