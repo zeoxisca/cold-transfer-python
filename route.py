@@ -61,7 +61,7 @@ def show_admin_login():
 @url.route('/admin/verify/', methods=['POST'])
 def admin_login():
     if session.get('aid'):
-        return redirect(url_for(backstage))
+        return redirect(url_for('backstage'))
     data = request.form
     return users.admin_login(data)
 
